@@ -43,7 +43,7 @@ void decrease(const_iterator _It, const value_type& _Val);
 |decrease-key|*O*(1)|
 |size|*O*(1)|
 |delete-all|*O*(n)|
-* Detailed Analysis of rp-heap please refer to the reference
+* Detailed Analysis of rp-heap please refer to [1]
 
 ### Simple demo
 
@@ -81,7 +81,7 @@ int main()
 ## Use rp-heap in A* algorithm
 
 ## References
-B. Haeupler, S. Sen, and R. E. Tarjan. Rank-pairing heaps. SIAM J. Comput., 40:1463–1485, 2011.
+[1] B. Haeupler, S. Sen, and R. E. Tarjan. Rank-pairing heaps. SIAM J. Comput., 40:1463–1485, 2011.
 
 ## Later updates
 I tested the A* algorithm with several data structures including binary heap, d-ary heap, pairing heap, and rp-heap. It is found that rp-heap is the fastest and outperforms pairing heap. In later updates, I will complete the functions including iterator, meld, delete and finally give the benchmark of comparision of different heap data structures.
