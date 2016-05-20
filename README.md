@@ -79,7 +79,7 @@ int main()
 ```
 
 ## Use rp-heap in A* algorithm
-Original Map in the game
+A sample map taking from MMORPG [Strugarden NEO](http://www.strugarden.info/)
 
 
 <img src="https://raw.githubusercontent.com/shingyipcheung/rank_pairing_heaps/master/png/map1.png" width="258" height="360" />
@@ -107,5 +107,10 @@ Shortest path by A* (weighted, 8-direction movement)
 ## References
 [1] B. Haeupler, S. Sen, and R. E. Tarjan. Rank-pairing heaps. SIAM J. Comput., 40:1463–1485, 2011.
 
+
+[2] Cherkassky, Boris V.; Goldberg, Andrew V.; Radzik, Tomasz (1996), "Shortest paths algorithms: theory and experimental evaluation", Mathematical Programming, Series A 73 (2): 129–174, doi:10.1016/0025-5610(95)00021-6, MR 1392160
+
+
+[3] [Introduction to A*](http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html)
 ## Later updates
 I tested the A* algorithm with several data structures including binary heap, d-ary heap, pairing heap, and rp-heap. It is found that rp-heap is the fastest and outperforms pairing heap. In later updates, I will complete the functions including iterator, meld, delete and finally give the benchmark of comparision of different heap data structures.
