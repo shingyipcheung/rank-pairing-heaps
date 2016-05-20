@@ -1,1 +1,1 @@
-# rank_pairing_heaps
+Implementation of rank pairing heaps
