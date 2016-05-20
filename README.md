@@ -1,12 +1,11 @@
 ## Rank pairing heaps
 
 ### Introduction
-This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) in **C++11**. The idea of rp-heap is based on lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap) with rank restriction to ensure the balance of half trees. Heap has wide applications like heapsort, k-smallest elements, Prim's algorithm and well-known Dijkstra's shortest-path algorithm. We are implementing this data structure because:
+This is a **header-only** implementation of the-state-of-art rank-pairing heaps[1] (**rp-heap**) in **C++11**. The idea of rp-heap is based on lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap) with rank restriction to ensure the balance of half trees. Heap has wide applications like heapsort, k-smallest elements, Prim's algorithm and well-known Dijkstra's shortest-path algorithm. We are implementing this data structure because:
 
 * [std::priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) does not support the decrease-key operation.
 * [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretical fast only
-* The-state-of-art heap
-* Looking for an efficient decrease_key operation in pathfinding which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
+* Looking for an efficient decrease_key operation in pathfinding algorithm which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
 In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
 
