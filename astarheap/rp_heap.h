@@ -92,29 +92,31 @@ public:
 
 	typedef _Iterator<_Myt> const_iterator;
 
-    rp_heap(const _Pr& _Pred = _Pr()) : comp(_Pred)
-    {
+	rp_heap(const _Pr& _Pred = _Pr()) : comp(_Pred)
+	{
 		_Mysize = 0;
 		_Myhead = nullptr;
-    }
-    ~rp_heap()
-    {
-        clear();
-    }
-    bool empty() const
-    {
-        return _Mysize == 0;
-    }
+	}
+	
+	~rp_heap()
+	{
+	clear();
+	}
+	
+	bool empty() const
+	{
+	return _Mysize == 0;
+	}
 
 	size_type size() const
 	{
 		return _Mysize;
 	}
 
-    const_reference top() const
-    {
-        return _Myhead->_Val;
-    }
+	const_reference top() const
+	{
+	return _Myhead->_Val;
+	}
 
 	const_iterator push(const value_type& _Val)
 	{
@@ -125,19 +127,19 @@ public:
 		return const_iterator(_Ptr);
 	}
 
-    const_iterator push(value_type&& x)
-    {
-        _Nodeptr _Ptr = _Alnod.allocate(1);
+	const_iterator push(value_type&& x)
+	{
+		_Nodeptr _Ptr = _Alnod.allocate(1);
 		_Alnod.construct(_Ptr, std::forward<value_type>(x));
 		_Insert_root(_Ptr);
 		_Mysize++;
-        return const_iterator(_Ptr);
-    }
+		return const_iterator(_Ptr);
+	}
 
-    void pop() //delete min
-    {
-        if (empty())
-            throw std::runtime_error("heap empty before pop");
+    	void pop() //delete min
+    	{
+        	if (empty())
+            		throw std::runtime_error("heap empty before pop");
 		std::vector<_Nodeptr> _Bucket(_Max_bucket_size(), nullptr);
 /*		assert_children(_MinRoot);*/
 		for (_Nodeptr _Ptr = _Myhead->_Left; _Ptr; )
@@ -162,18 +164,18 @@ public:
 			if (_Ptr)
 				_Insert_root(_Ptr);
 		});
-    }
+    	}
 
-    void pop(value_type& _Val)
-    {
+    	void pop(value_type& _Val)
+    	{
 		if (empty())
 			throw std::runtime_error("heap empty before pop");
-        _Val = std::move(_Myhead->_Val);
-        pop();
-    }
+        	_Val = std::move(_Myhead->_Val);
+        	pop();
+	}
 
-    void clear()
-    {
+    	void clear()
+    	{
 // 		while (!empty())
 // 			pop();
 		// post order traversal using two stacks
@@ -200,10 +202,10 @@ public:
 		}
 		_Myhead = nullptr;
 		//assert(empty());
-    }
+    	}
 
-    void decrease(const_iterator _It, const value_type& _Val)
-    {
+    	void decrease(const_iterator _It, const value_type& _Val)
+    	{
 		_Nodeptr _Ptr = _It._Ptr;
 		if (comp(_Val, _Ptr->_Val))
 			_Ptr->_Val = _Val;
@@ -255,7 +257,7 @@ public:
 				}
 			}
 		}
-    }
+    	}
 
 private:
 
@@ -300,23 +302,23 @@ private:
 		}
 	}
 
-    _Nodeptr _Link(_Nodeptr _Left, _Nodeptr _Right)
-    {
-        if (_Right == nullptr)
+	_Nodeptr _Link(_Nodeptr _Left, _Nodeptr _Right)
+    	{
+        	if (_Right == nullptr)
 			return _Left;
 // 		assert_half_tree(_Left);
 // 		assert_half_tree(_Right);
 		_Nodeptr _Winner, _Loser;
-        if (comp(_Right->_Val, _Left->_Val))
-        {
+        	if (comp(_Right->_Val, _Left->_Val))
+        	{
 			_Winner = _Right;
 			_Loser = _Left;
-        }
-        else
-        {
+        	}
+        	else
+        	{
 			_Winner = _Left;
 			_Loser = _Right;
-        }
+        	}
 		_Loser->_Parent = _Winner;
 		if (_Winner->_Left)
 		{
@@ -329,12 +331,12 @@ private:
 // 		assert_parent(_Loser);
 // 		assert_half_tree(_Winner);
 		return _Winner;
-    }
+	}
 
 	inline size_type _Max_bucket_size() //ceil(log2(size)) + 1
 	{
-		size_type _Bit = 1, _Temp = _Mysize;
-		while (_Temp >>= 1)
+		size_type _Bit = 1, _Count = _Mysize;
+		while (_Count >>= 1)
 			_Bit++;
 		return _Bit + 1;
 	}
