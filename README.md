@@ -8,7 +8,7 @@ This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) in 
 * The-state-of-art heap
 * Looking for a efficient decrease_key operation in pathfinding which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
-In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. We will have a demo using rp-heap with A* in the comming part.
+In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
 
 ### Usage
 The implementation mimics STL containers and provides **STL-like** member functions. 
@@ -45,7 +45,7 @@ void decrease(const_iterator _It, const value_type& _Val);
 |delete-all|*O*(n)|
 * Detailed Analysis of rp-heap please refer to [1]
 
-### Simple demo
+### Simple usage
 
 ```C++
 #include <iostream>
