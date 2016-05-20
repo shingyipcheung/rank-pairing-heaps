@@ -79,6 +79,30 @@ int main()
 ```
 
 ## Use rp-heap in A* algorithm
+Original Map in the game
+
+
+<img src="https://raw.githubusercontent.com/shingyipcheung/rank_pairing_heaps/master/png/map1.png" width="258" height="360" />
+
+
+Transformed 2D grid Map
+
+
+<img src="https://raw.githubusercontent.com/shingyipcheung/rank_pairing_heaps/master/png/map2.png" width="258" height="360" />
+
+
+Shortest path by BFS (unweighted, 4-direction movement)
+
+
+<img src="https://raw.githubusercontent.com/shingyipcheung/rank_pairing_heaps/master/png/map3.png" width="258" height="360" />
+
+
+Shortest path by A* (weighted, 8-direction movement)
+
+
+<img src="https://raw.githubusercontent.com/shingyipcheung/rank_pairing_heaps/master/png/map4.png" width="258" height="360" />
+
+
 
 ## References
 [1] B. Haeupler, S. Sen, and R. E. Tarjan. Rank-pairing heaps. SIAM J. Comput., 40:1463–1485, 2011.
