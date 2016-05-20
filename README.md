@@ -32,7 +32,7 @@ int main()
 	{
 		int x;
 		heap.pop(x);
-		cout << x << endl;
+		std::cout << x << '\n';
 	}
 	return 0;
 }
