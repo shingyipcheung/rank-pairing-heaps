@@ -18,21 +18,30 @@ To use it, simply include this header file
 ```C++
 // make heap
 rp_heap(const _Pr& _Pred = _Pr());
+
 // capacity
 bool empty() const;
 size_type size() const;
+
 // find-min
 const_reference top() const;
+
 // insert
 const_iterator push(const value_type& _Val);
 const_iterator push(value_type&& x);
+
 // delete-min
 void pop();
 void pop(value_type& _Val);
+
 // delete-all
 void clear();
+
 // decrease-key
 void decrease(const_iterator _It, const value_type& _Val);
+
+// for type 1 rank reduction (default type 2)
+#define TYPE1_RANK_REDUCTION
 ```
 
 ##### Sample code
@@ -80,7 +89,7 @@ int main()
 |decrease-key|*O*(1)|
 |size|*O*(1)|
 |delete-all|*O*(n)|
-* Detailed Analysis of rp-heap please refer to [1]
+* For detailed Analysis of rp-heap, see [1]
 
 
 ### Use rp-heap in A* algorithm
