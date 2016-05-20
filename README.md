@@ -52,15 +52,15 @@ int main()
 	std::random_shuffle(v.begin(), v.end()); // shuffle v
 	
 	rp_heap<int> heap;
-	std::vector<rp_heap<int>::const_iterator> iter_v; // save the iterators returned from push
+	std::vector<rp_heap<int>::const_iterator> its; // save the iterators returned from push
 	for (int i = 0; i < size; i++)
-		iter_v.push_back(heap.push(v[i]));
+		its.push_back(heap.push(v[i]));
 		
-	heap.decrease(iter_v[0], 0); // a number is decrease to 0
+	heap.decrease(its[0], 0); // a number is decrease to 0
 	heap.pop(); // pop that number
 	
 	for (int i = 1; i < size; i++)
-		heap.decrease(iter_v[i], *iter_v[i] - 1); // each element in heap is decreasd by 1
+		heap.decrease(its[i], *its[i] - 1); // each element in heap is decreasd by 1
 	while (!heap.empty())
 	{
 		int x;
