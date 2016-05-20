@@ -6,14 +6,16 @@ This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) in 
 * [std::priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) does not support the decrease-key operation.
 * [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretical fast only
 * The-state-of-art heap
-* Looking for a efficient decrease_key operation in pathfinding which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
+* Looking for an efficient decrease_key operation in pathfinding which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
 In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
 
 ### Usage
 The implementation mimics STL containers and provides **STL-like** member functions. 
-You can simply download this header file:
+To use it, simply include this header file
 **rank_pairing_heaps/astarheap/rp_heap.h**
+
+##### Basic member functions
 ```C++
 // make heap
 rp_heap(const _Pr& _Pred = _Pr());
@@ -34,6 +36,42 @@ void clear();
 void decrease(const_iterator _It, const value_type& _Val);
 ```
 
+##### Sample code
+
+```C++
+#include <iostream>
+#include <algorithm> // std::random_shuffle
+#include "rp_heap.h"
+#include <vector>
+
+int main()
+{
+	std::vector<int> v;
+	int size = 1000;
+	for (int i = 0; i < size; i++)
+		v.push_back(i + 1); // v = {1, 2,... 1000}
+	std::random_shuffle(v.begin(), v.end()); // shuffle v
+	
+	rp_heap<int> heap;
+	std::vector<rp_heap<int>::const_iterator> iter_v; // save the iterators returned from push
+	for (int i = 0; i < size; i++)
+		iter_v.push_back(heap.push(v[i]));
+		
+	heap.decrease(iter_v[0], 0); // a number is decrease to 0
+	heap.pop(); // pop that number
+	
+	for (int i = 1; i < size; i++)
+		heap.decrease(iter_v[i], *iter_v[i] - 1); // each element in heap is decreasd by 1
+	while (!heap.empty())
+	{
+		int x;
+		heap.pop(x);
+		std::cout << x << '\n'; // will print the number from {1, 2,...999} but missing the one in the first pop
+	}
+	return 0;
+}
+```
+
 ### Performance
 | Operations    | Amortized time|
 | ------------- |:-------------:|
@@ -45,38 +83,6 @@ void decrease(const_iterator _It, const value_type& _Val);
 |delete-all|*O*(n)|
 * Detailed Analysis of rp-heap please refer to [1]
 
-### Simple usage
-
-```C++
-#include <iostream>
-#include <algorithm> // std::random_shuffle
-#include "rp_heap.h"
-#include <vector>
-
-int main()
-{
-	std::vector<int> v;
-	std::vector<rp_heap<int>::const_iterator> iter_v;
-	rp_heap<int> heap;
-	int size = 1000;
-	for (int i = 0; i < size; i++)
-		v.push_back(i + 1);
-	std::random_shuffle(v.begin(), v.end());
-	for (int i = 0; i < size; i++)
-		iter_v.push_back(heap.push(v[i]));
-	heap.decrease(iter_v[0], 0);
-	heap.pop();
-	for (int i = 1; i < size; i++)
-		heap.decrease(iter_v[i], *iter_v[i] - 1);
-	while (!heap.empty())
-	{
-		int x;
-		heap.pop(x);
-		std::cout << x << '\n';
-	}
-	return 0;
-}
-```
 
 ## Use rp-heap in A* algorithm
 A sample map taking from MMORPG [Strugarden NEO](http://www.strugarden.info/)
