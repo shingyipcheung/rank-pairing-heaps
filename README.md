@@ -65,7 +65,7 @@ int main()
 	for (int i = 0; i < size; i++)
 		its.push_back(heap.push(v[i]));
 		
-	heap.decrease(its[0], 0); // a number is decrease to 0
+	heap.decrease(its[0], 0); // a number decreases to 0
 	heap.pop(); // pop that number
 	
 	for (int i = 1; i < size; i++)
