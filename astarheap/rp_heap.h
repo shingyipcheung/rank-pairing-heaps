@@ -100,12 +100,12 @@ public:
 	
 	~rp_heap()
 	{
-	clear();
+		clear();
 	}
 	
 	bool empty() const
 	{
-	return _Mysize == 0;
+		return _Mysize == 0;
 	}
 
 	size_type size() const
@@ -115,7 +115,7 @@ public:
 
 	const_reference top() const
 	{
-	return _Myhead->_Val;
+		return _Myhead->_Val;
 	}
 
 	const_iterator push(const value_type& _Val)
@@ -136,10 +136,10 @@ public:
 		return const_iterator(_Ptr);
 	}
 
-    	void pop() //delete min
-    	{
-        	if (empty())
-            		throw std::runtime_error("heap empty before pop");
+    void pop() //delete min
+    {
+        if (empty())
+            throw std::runtime_error("heap empty before pop");
 		std::vector<_Nodeptr> _Bucket(_Max_bucket_size(), nullptr);
 /*		assert_children(_MinRoot);*/
 		for (_Nodeptr _Ptr = _Myhead->_Left; _Ptr; )
@@ -164,18 +164,18 @@ public:
 			if (_Ptr)
 				_Insert_root(_Ptr);
 		});
-    	}
+    }
 
-    	void pop(value_type& _Val)
-    	{
+    void pop(value_type& _Val)
+    {
 		if (empty())
 			throw std::runtime_error("heap empty before pop");
-        	_Val = std::move(_Myhead->_Val);
-        	pop();
+        _Val = std::move(_Myhead->_Val);
+        pop();
 	}
 
-    	void clear()
-    	{
+    void clear()
+    {
 // 		while (!empty())
 // 			pop();
 		// post order traversal using two stacks
@@ -202,10 +202,10 @@ public:
 		}
 		_Myhead = nullptr;
 		//assert(empty());
-    	}
+    }
 
-    	void decrease(const_iterator _It, const value_type& _Val)
-    	{
+    void decrease(const_iterator _It, const value_type& _Val)
+    {
 		_Nodeptr _Ptr = _It._Ptr;
 		if (comp(_Val, _Ptr->_Val))
 			_Ptr->_Val = _Val;
@@ -257,7 +257,7 @@ public:
 				}
 			}
 		}
-    	}
+    }
 
 private:
 
@@ -303,22 +303,22 @@ private:
 	}
 
 	_Nodeptr _Link(_Nodeptr _Left, _Nodeptr _Right)
-    	{
-        	if (_Right == nullptr)
+    {
+        if (_Right == nullptr)
 			return _Left;
 // 		assert_half_tree(_Left);
 // 		assert_half_tree(_Right);
 		_Nodeptr _Winner, _Loser;
-        	if (comp(_Right->_Val, _Left->_Val))
-        	{
+        if (comp(_Right->_Val, _Left->_Val))
+        {
 			_Winner = _Right;
 			_Loser = _Left;
-        	}
-        	else
-        	{
+        }
+        else
+        {
 			_Winner = _Left;
 			_Loser = _Right;
-        	}
+        }
 		_Loser->_Parent = _Winner;
 		if (_Winner->_Left)
 		{
