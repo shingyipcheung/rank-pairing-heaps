@@ -1,17 +1,17 @@
 ## Rank pairing heaps
 
 ### Introduction
-This is a **header-only** implementation of the-state-of-art rank-pairing heaps (**rp-heap**) in **C++11**. The idea of rp-heap is based on lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap) with the rank restriction to ensure the balance of half trees. Heap has wide applications like heapsort, k-smallest elements, Prim's algorithm and well-known Dijkstra's shortest-path algorithm. We are implementing this data structure because:
+This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) written in **C++11**. The idea of rp-heap is based on lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap) with the rank restriction to ensure the balance of half trees. Heap has wide applications like heapsort, k-smallest elements, Prim's algorithm and notably well-known Dijkstra's shortest-path algorithm. We are implementing this data structure because:
 
-* [std::priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) does not support the decrease-key operation
-* [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretical fast only
-* Looking for an efficient decrease_key operation in pathfinding algorithm which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
+* [std::priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) does not support decrease-key
+* [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretically fast but not good in practice
+* we are looking for an efficient 'decrease key' operation in pathfinding algorithm which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
 In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
 
 ### Usage
 The implementation mimics STL containers and provides **STL-like** member functions. 
-To use it, simply include this header file
+To use it, simply include the header file
 **rank_pairing_heaps/astarheap/rp_heap.h**
 
 ##### Basic member functions
@@ -44,7 +44,7 @@ void decrease(const_iterator _It, const value_type& _Val);
 #define TYPE1_RANK_REDUCTION
 ```
 
-##### Sample code
+##### Test program
 
 ```C++
 #include <iostream>
@@ -92,7 +92,7 @@ int main()
 * For detailed analysis of rp-heap, see [1]
 
 
-### Use rp-heap in A* algorithm
+### A* algorithm using rp-heap
 A sample map taking from MMORPG [Strugarden NEO](http://www.strugarden.info/)
 
 
