@@ -1,18 +1,14 @@
 /*
 The MIT License (MIT)
-
 Copyright (c) 2016 James Yip
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -59,15 +55,20 @@ public:
     typedef typename _Myheap::_Nodeptr _Nodeptr;
     typedef typename _Myheap::value_type value_type;
     typedef typename _Myheap::difference_type difference_type;
-    typedef typename _Myheap::const_reference reference;
+    typedef typename _Myheap::const_reference const_reference;
+    typedef typename _Myheap::const_pointer const_pointer;
 
     _Iterator(_Nodeptr _Ptr = nullptr)
     {
         this->_Ptr = _Ptr;
     }
-    reference operator*() const
+    const_reference operator*() const
     {
         return this->_Ptr->_Val;
+    }
+    const_pointer operator->() const
+    {
+        return &(operator*());
     }
     _Nodeptr _Ptr;
 };
@@ -84,7 +85,9 @@ public:
 
     typedef _Alloc allocator_type;
     typedef typename _Alloc::template rebind<_Node>::other _Alty;
-    typedef typename _Alloc::value_type value_type; 
+    typedef typename _Alloc::value_type value_type;
+    typedef typename _Alloc::pointer pointer;
+    typedef typename _Alloc::const_pointer const_pointer;
     typedef typename _Alloc::reference reference;
     typedef typename _Alloc::const_reference const_reference;
     typedef typename _Alloc::difference_type difference_type;
@@ -97,12 +100,12 @@ public:
         _Mysize = 0;
         _Myhead = nullptr;
     }
-    
+
     ~rp_heap()
     {
         clear();
     }
-    
+
     bool empty() const
     {
         return _Mysize == 0;
@@ -139,7 +142,7 @@ public:
     void pop() //delete min
     {
         if (empty())
-            throw std::runtime_error("heap empty before pop");
+            throw std::runtime_error("pop error: empty heap");
         std::vector<_Nodeptr> _Bucket(_Max_bucket_size(), nullptr);
         // assert_children(_MinRoot);
         for (_Nodeptr _Ptr = _Myhead->_Left; _Ptr; )
@@ -169,7 +172,7 @@ public:
     void pop(value_type& _Val)
     {
         if (empty())
-            throw std::runtime_error("heap empty before pop");
+            throw std::runtime_error("pop error: empty heap");
         _Val = std::move(_Myhead->_Val);
         pop();
     }
@@ -350,19 +353,19 @@ private:
         // }
         // else
         // {
-            while (_Bucket[_Ptr->_Rank] != nullptr)
-            {
-                unsigned int _Rank = _Ptr->_Rank;
-                _Ptr = _Link(_Ptr, _Bucket[_Rank]);
-                // assert_children(_Ptr);
-                // assert_half_tree(_Ptr);
-                _Bucket[_Rank] = nullptr;
-                // if ((size_t)_Ptr->_Rank >= _Bucket.size())
-                // {
-                //     _Bucket.resize(_Ptr->_Rank + 1, nullptr);
-                //     break;
-                // }
-            }
+        while (_Bucket[_Ptr->_Rank] != nullptr)
+        {
+            unsigned int _Rank = _Ptr->_Rank;
+            _Ptr = _Link(_Ptr, _Bucket[_Rank]);
+            // assert_children(_Ptr);
+            // assert_half_tree(_Ptr);
+            _Bucket[_Rank] = nullptr;
+            // if ((size_t)_Ptr->_Rank >= _Bucket.size())
+            // {
+            //     _Bucket.resize(_Ptr->_Rank + 1, nullptr);
+            //     break;
+            // }
+        }
         // }
         _Bucket[_Ptr->_Rank] = _Ptr;
     }
