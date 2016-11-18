@@ -126,5 +126,3 @@ Shortest path by A* (weighted, 8-direction movement)
 
 
 [3] [Introduction to A*](http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html)
-### Later updates
-I tested the A* algorithm with several data structures including binary heap, d-ary heap, pairing heap, and rp-heap. It is found that rp-heap is the fastest and outperforms pairing heap. In later updates, I will complete the functions including iterator, meld, delete and finally give the benchmark of comparision of different heap data structures.
