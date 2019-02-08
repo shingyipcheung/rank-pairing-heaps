@@ -73,7 +73,7 @@ public:
     _Nodeptr _Ptr;
 };
 
-template <class _Ty, class _Pr = less<_Ty>, class _Alloc = std::allocator<_Ty>>
+template <class _Ty, class _Pr = std::less<_Ty>, class _Alloc = std::allocator<_Ty>>
 class rp_heap
 {
 public:
@@ -249,9 +249,9 @@ public:
                     int i = _ParentPtr->_Left ? _ParentPtr->_Left->_Rank : -1;
                     int j = _ParentPtr->_Next ? _ParentPtr->_Next->_Rank : -1;
 #ifdef TYPE1_RANK_REDUCTION
-                    int k = (i != j) ? max(i, j) : i + 1; //type-1 rank reduction
+                    int k = (i != j) ? std::max(i, j) : i + 1; //type-1 rank reduction
 #else
-                    int k = (abs(i - j) > 1) ? max(i, j) : max(i, j) + 1; //type-2 rank reduction
+                    int k = (abs(i - j) > 1) ? std::max(i, j) : std::max(i, j) + 1; //type-2 rank reduction
 #endif // TYPE1_RANK_REDUCTION
                     if (k >= _ParentPtr->_Rank)
                         break;
