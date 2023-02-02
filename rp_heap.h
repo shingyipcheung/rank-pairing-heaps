@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2016 James Yip
+Copyright (c) 2023 James Yip
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -25,6 +25,7 @@ SOFTWARE.
 #include <stdexcept>
 #include <vector>
 #include <stack>
+#include <queue>
 
 template <class _Ty>
 struct _Node
@@ -179,28 +180,19 @@ public:
 
     void clear()
     {
-        // while (!empty())
-        //     pop();
-        // post order traversal using two stacks
         if (!empty())
         {
-            std::stack<_Nodeptr> _Stack_in, _Stack_out;
-            _Stack_in.push(_Myhead);
-            while (!_Stack_in.empty())
+            std::queue<_Nodeptr> _Queue;
+            _Queue.push(_Myhead);
+            while (!_Queue.empty())
             {
-                _Nodeptr _Ptr = _Stack_in.top();
-                _Stack_in.pop();
-                _Stack_out.push(_Ptr);
+                _Nodeptr _Ptr = _Queue.front();
+                _Queue.pop();
                 if (_Ptr->_Left)
-                    _Stack_in.push(_Ptr->_Left);
+                    _Queue.push(_Ptr->_Left);
                 if (_Ptr->_Next && _Ptr->_Next != _Myhead)
-                    _Stack_in.push(_Ptr->_Next);
-            }
-            while (!_Stack_out.empty())
-            {
-                _Nodeptr _Ptr = _Stack_out.top();
+                    _Queue.push(_Ptr->_Next);
                 _Freenode(_Ptr);
-                _Stack_out.pop();
             }
         }
         _Myhead = nullptr;

@@ -1,37 +1,15 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <windows.h>
 #include <deque> // hold the result path
-#include <ctime>
+#include <chrono>
 #include <unordered_map> // hash map coordinate to iterator
 #define TYPE1_RANK_REDUCTION
 #include "rp_heap.h"
 #include "AstarNode.h"
+#include <cmath>
 
-using namespace std; // for demo only
+using namespace std;
 
-#define BLACK 0
-#define DARKYELLOW 6
-#define GRAY 8
-#define BLUE 9
-#define GREEN 10
-#define SKYBLUE 11
-#define RED 12 
-#define PURPLE 13
-#define YELLOW 14
-#define WHITE 15
-
-const double SQRT2 = sqrt(2); 
-
-void changeConsoleColor(WORD color)
-{
-	static WORD current_color = WHITE;
-	if (current_color != color)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-		current_color = color;
-	}
-}
 
 inline double heuristic(int x1, int y1, int x2, int y2) 
 {
@@ -61,7 +39,8 @@ bool compare(AstarNode* left, AstarNode* right)
 
 deque<Node> AstarAlgorithm(const vector<vector<unsigned char>>& map, int L, int W, const Node& s, const Node& g)
 {
-	typedef rp_heap<AstarNode*, decltype(&compare)>::const_iterator iterator;
+    static const double SQRT2 = sqrt(2);
+    typedef rp_heap<AstarNode*, decltype(&compare)>::const_iterator iterator;
 	unordered_map<Point2D, iterator> open_set, closed_set;
 	rp_heap<AstarNode*, decltype(&compare)> heap(&compare);
 	deque<Node> resultPath;
@@ -171,12 +150,13 @@ deque<Node> shortestPathBFS(const vector<vector<unsigned char>>& map, int L, int
 	return resultPath;
 }
 
+
+
 int main () 
 {
-	ifstream file("102_000_00033.bin", ios::in|ios::binary);
+	ifstream file("./map/102_000_00033.bin", ios::in|ios::binary);
 	if (file.is_open())
 	{
-		streampos size = file.tellg();
 		file.seekg(0, ios::beg);
 		unsigned char length = 0;
 		unsigned char width = 0;
@@ -188,39 +168,18 @@ int main ()
 				file.read((char*)&map[y][x], 1); // 1 byte
 		Node s(62, 146);
 		Node g(100, 31 + 19);
-		clock_t startTime = clock();
+        using namespace std::chrono;
+        const auto before = duration_cast<milliseconds>(
+                system_clock::now().time_since_epoch()
+        );
 		auto resultPath = AstarAlgorithm(map, length, width, s, g);
-		clock_t endTime = clock();
-		cout << "Runtime: " << (double)(endTime - startTime) / CLOCKS_PER_SEC << '\n';
-		for (unsigned int i = 0; i < resultPath.size(); i++)
-			for (auto it = resultPath.begin(); it != resultPath.end(); it++)
-				map[it->y][it->x] = 2;
-		changeConsoleColor(WHITE);
-		for (int y = 0; y < width; y++) 
-		{
-			for (int x = 0; x < length; x++) 
-			{
-				changeConsoleColor(WHITE);
-				if (map[y][x] == 0)
-				{
-					cout << "□";
-				}
-				else if (map[y][x] == 1)
-				{
-					cout << "■";
-				}
-				else if (map[y][x] == 2) 
-				{
-					changeConsoleColor(BLUE);
-					cout << "■";
-				} 
-			}
-			cout << '\n';
-		}
+        const auto after = duration_cast<milliseconds>(
+                system_clock::now().time_since_epoch()
+        );
+        std::cout << "It took " << (after - before).count() << "ms" << std::endl;
 	}
 	else 
 		cout << "Unable to open file";
-	system("pause");
 	return 0;
 }
 

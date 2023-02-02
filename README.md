@@ -7,12 +7,12 @@ This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) wri
 * [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretically fast but not good in practice
 * we are looking for an efficient 'decrease key' operation in pathfinding algorithm which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
-In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
+In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. The main file provides a demo of A* pathfinding using rp-heap.
 
 ### Usage
 The implementation mimics STL containers and provides **STL-like** member functions. 
 To use it, simply include the header file
-**rank_pairing_heaps/astarheap/rp_heap.h**
+**rp_heap.h**
 
 ##### Basic member functions
 ```C++
@@ -26,7 +26,7 @@ size_type size() const;
 // find-min
 const_reference top() const;
 
-// insert
+// insert, returns an iterator holding the internal pointer of node for the parameter of decrease key
 const_iterator push(const value_type& _Val);
 const_iterator push(value_type&& x);
 
@@ -54,29 +54,29 @@ void decrease(const_iterator _It, const value_type& _Val);
 
 int main()
 {
-	std::vector<int> v;
-	int size = 1000;
-	for (int i = 0; i < size; i++)
-		v.push_back(i + 1); // v = {1, 2,... 1000}
-	std::random_shuffle(v.begin(), v.end()); // shuffle v
-	
-	rp_heap<int> heap;
-	std::vector<rp_heap<int>::const_iterator> its; // save the iterators returned from push
-	for (int i = 0; i < size; i++)
-		its.push_back(heap.push(v[i]));
-		
-	heap.decrease(its[0], 0); // a number decreases to 0
-	heap.pop(); // pop that number
-	
-	for (int i = 1; i < size; i++)
-		heap.decrease(its[i], *its[i] - 1); // each element in heap is decreasd by 1
-	while (!heap.empty())
-	{
-		int x;
-		heap.pop(x);
-		std::cout << x << '\n'; // will print the number from {1, 2,...999} but missing the one in the first pop
-	}
-	return 0;
+    std::vector<int> v;
+    int size = 1000;
+    for (int i = 0; i < size; i++)
+        v.push_back(i + 1); // v = {1, 2,... 1000}
+    std::random_shuffle(v.begin(), v.end()); // shuffle v
+    
+    rp_heap<int> heap;
+    std::vector<rp_heap<int>::const_iterator> its; // save the iterators returned from push
+    for (int i = 0; i < size; i++)
+        its.push_back(heap.push(v[i]));
+        
+    heap.decrease(its[0], 0); // a number decreases to 0
+    heap.pop(); // pop that number
+    
+    for (int i = 1; i < size; i++)
+        heap.decrease(its[i], *its[i] - 1); // each element in heap is decreasd by 1
+    while (!heap.empty())
+    {
+        int x;
+        heap.pop(x);
+        std::cout << x << '\n'; // will print the number from {1, 2,...999} but missing the one in the first pop
+    }
+    return 0;
 }
 ```
 
