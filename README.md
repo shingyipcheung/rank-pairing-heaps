@@ -26,7 +26,7 @@ bool empty() const;
 size_t size() const;
 
 // find-min
-const_reference top() const;
+const T& top() const;
 
 // insert, returns an iterator holding the internal pointer of node for the parameter of decrease key
 const_iterator push(const T& val);
@@ -34,13 +34,13 @@ const_iterator push(T&& val);
 
 // delete-min
 void pop();
-void pop(value_type& _Val);
+void pop(T& val);
 
 // delete-all
 void clear();
 
-// decrease-key
-void decrease(const_iterator _It, const value_type& _Val);
+// decrease-key, use the iterator returned by push
+void decrease(const_iterator it, const T& val);
 
 // for type 1 rank reduction (default type 2)
 #define TYPE1_RANK_REDUCTION
