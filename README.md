@@ -1,44 +1,46 @@
 ## Rank pairing heaps
 
 ### Introduction
-This is a **header-only** implementation of rank-pairing heaps (**rp-heap**) written in **C++11**. The idea of rp-heap is based on lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap) with the rank restriction to ensure the balance of half trees. Heap has wide applications like heapsort, k-smallest elements, Prim's algorithm and notably well-known Dijkstra's shortest-path algorithm. We are implementing this data structure because:
+This is a **header-only** implementation of rank-pairing heaps written in **C++11**. Derived from the lazy [binomial queue](https://en.wikipedia.org/wiki/Binomial_heap), the rank-pairing heaps utilizes rank restriction to maintain a balance among its half trees. Heaps are widely applied in algorithms such as heapsort, k-smallest elements, Prim's, and the renowned Dijkstra's shortest-path algorithm. This implementation was born out of the need for:
 
 * [std::priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) does not support decrease-key
 * [Fibonacci heap](https://en.wikipedia.org/wiki/Fibonacci_heap) is theoretically fast but not good in practice
-* we are looking for an efficient 'decrease key' operation in pathfinding algorithm which is better than practical [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
+* A practical alternative to the [d-ary heap](https://en.wikipedia.org/wiki/D-ary_heap) and [pairing heap](https://en.wikipedia.org/wiki/Pairing_heap)
 
-In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. You can download this repository to build the solution and run the demo of A* pathfinding using rp-heap in MSVC.
+In game development, [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) is a standard shortest path algorithm. The `main.cpp` file provides a demo of A* pathfinding using `rp-heap`.
 
 ### Usage
 The implementation mimics STL containers and provides **STL-like** member functions. 
 To use it, simply include the header file
-**rank_pairing_heaps/astarheap/rp_heap.h**
+```cpp
+#include "rp_heap.h"
+```
 
 ##### Basic member functions
 ```C++
 // make heap
-rp_heap(const _Pr& _Pred = _Pr());
+rp_heap<T> heap;
 
 // capacity
 bool empty() const;
-size_type size() const;
+size_t size() const;
 
 // find-min
-const_reference top() const;
+const T& top() const;
 
-// insert
-const_iterator push(const value_type& _Val);
-const_iterator push(value_type&& x);
+// insert, returns an iterator holding the internal pointer of node for the parameter of decrease key
+const_iterator push(const T& val);
+const_iterator push(T&& val);
 
 // delete-min
 void pop();
-void pop(value_type& _Val);
+void pop(T& val);
 
 // delete-all
 void clear();
 
-// decrease-key
-void decrease(const_iterator _It, const value_type& _Val);
+// decrease-key, use the iterator returned by push
+void decrease(const_iterator it, const T& val);
 
 // for type 1 rank reduction (default type 2)
 #define TYPE1_RANK_REDUCTION
@@ -54,29 +56,29 @@ void decrease(const_iterator _It, const value_type& _Val);
 
 int main()
 {
-	std::vector<int> v;
-	int size = 1000;
-	for (int i = 0; i < size; i++)
-		v.push_back(i + 1); // v = {1, 2,... 1000}
-	std::random_shuffle(v.begin(), v.end()); // shuffle v
-	
-	rp_heap<int> heap;
-	std::vector<rp_heap<int>::const_iterator> its; // save the iterators returned from push
-	for (int i = 0; i < size; i++)
-		its.push_back(heap.push(v[i]));
-		
-	heap.decrease(its[0], 0); // a number decreases to 0
-	heap.pop(); // pop that number
-	
-	for (int i = 1; i < size; i++)
-		heap.decrease(its[i], *its[i] - 1); // each element in heap is decreasd by 1
-	while (!heap.empty())
-	{
-		int x;
-		heap.pop(x);
-		std::cout << x << '\n'; // will print the number from {1, 2,...999} but missing the one in the first pop
-	}
-	return 0;
+    std::vector<int> v;
+    int size = 1000;
+    for (int i = 0; i < size; i++)
+        v.push_back(i + 1); // v = {1, 2,... 1000}
+    std::random_shuffle(v.begin(), v.end()); // shuffle v
+    
+    rp_heap<int> heap;
+    std::vector<rp_heap<int>::const_iterator> its; // save the iterators returned from push
+    for (int i = 0; i < size; i++)
+        its.push_back(heap.push(v[i]));
+        
+    heap.decrease(its[0], 0); // a number decreases to 0
+    heap.pop(); // pop that number
+    
+    for (int i = 1; i < size; i++)
+        heap.decrease(its[i], *its[i] - 1); // each element in heap is decreasd by 1
+    while (!heap.empty())
+    {
+        int x;
+        heap.pop(x);
+        std::cout << x << '\n'; // will print the number from {1, 2,...999} but missing the one in the first pop
+    }
+    return 0;
 }
 ```
 
