@@ -167,7 +167,7 @@ The test suite (`test/test_rp_heap.cpp`) covers:
 
 
 ### A* algorithm using rp-heap
-A sample map taking from MMORPG [Strugarden NEO](http://www.strugarden.info/)
+A sample map taking from MMORPG [Strugarden NEO](https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3)
 
 
 <img src="png/map1.png" width="258" height="360" />
