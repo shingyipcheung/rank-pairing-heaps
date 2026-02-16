@@ -1,3 +1,6 @@
+#ifndef ASTARNODE_H
+#define ASTARNODE_H
+
 class Point2D
 {
 public:
@@ -22,7 +25,7 @@ public:
     Node* prev;
 	Node(int x, int y) : Point2D(x, y)
 	{
-        prev = 0;
+        prev = nullptr;
     }
     Node(int x, int y, Node* prev) : Point2D(x, y)
 	{
@@ -36,7 +39,7 @@ public:
     double g; //actual cost from start
     double h; //estimated cost to goal
     double f;
-    AstarNode(int x = 0, int y = 0, double g = 0, double h = 0, AstarNode* parent = 0) : Node(x, y, parent) 
+    AstarNode(int x = 0, int y = 0, double g = 0, double h = 0, AstarNode* parent = nullptr) : Node(x, y, parent) 
 	{
         this->g = g;
         this->h = h;
@@ -47,3 +50,5 @@ public:
         return f < right.f;
     }
 };
+
+#endif /* ASTARNODE_H */

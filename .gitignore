@@ -156,3 +156,13 @@ $RECYCLE.BIN/
 .DS_Store
 
 .idea/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeScripts/
+compile_commands.json
+CTestTestfile.cmake
+_deps/

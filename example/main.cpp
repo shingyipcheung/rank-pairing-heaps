@@ -6,7 +6,7 @@
 
 #define TYPE1_RANK_REDUCTION
 
-#include "rp_heap.h"
+#include "../rp_heap.h"
 #include "AstarNode.h"
 #include <cmath>
 
@@ -31,9 +31,9 @@ bool compare(const AstarNode *left, const AstarNode *right) {
 }
 
 std::deque<Node> shortest_path_a_star(const std::vector<std::vector<unsigned char>> &map, int L, int W, const Node &s, const Node &g) {
-    typedef rp_heaps<AstarNode *, decltype(&compare)>::const_iterator iterator;
+    typedef rp_heap<AstarNode *, decltype(&compare)>::const_iterator iterator;
     std::unordered_map<Point2D, iterator, Point2DHash> open_set, closed_set;
-    rp_heaps<AstarNode *, decltype(&compare)> heap(&compare);
+    rp_heap<AstarNode *, decltype(&compare)> heap(&compare);
     std::deque<Node> result_path;
     std::deque<AstarNode> node_list;
 
@@ -108,7 +108,7 @@ std::deque<Node> shortest_path_bfs(const std::vector<std::vector<unsigned char>>
     std::vector<std::vector<bool> > visited = std::vector<std::vector<bool> >(W, std::vector<bool>(L, false));
     std::deque<Node> q;
 
-    const int DIRECTIONS = 8;
+    const int DIRECTIONS = 4;
     const int dx[DIRECTIONS] = {0, 0, 1, -1};
     const int dy[DIRECTIONS] = {1, -1, 0, 0};
     int head = 0;
@@ -124,13 +124,11 @@ std::deque<Node> shortest_path_bfs(const std::vector<std::vector<unsigned char>>
                 visited[y][x] = true;
                 q.emplace_back(x, y, &q[head]);
                 if (x == bx && y == by) {
-                    int count = 0;
                     Node *curr = &q[tail];
                     Node *prev;
                     do {
-                        resultPath.push_front(Node(curr->x, curr->y));
+                        resultPath.emplace_front(curr->x, curr->y);
                         prev = curr->prev;
-                        count++;
                         curr = prev;
                     } while (curr != nullptr);
                     return resultPath;

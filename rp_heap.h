@@ -22,6 +22,8 @@ SOFTWARE.
 
 // #include <assert.h>
 #include <algorithm>
+#include <cstdlib>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 #include <stack>
@@ -84,14 +86,16 @@ public:
     typedef _Pr key_compare;
 
     typedef _Alloc allocator_type;
-    typedef typename _Alloc::template rebind<_Node>::other _Alty;
-    typedef typename _Alloc::value_type value_type;
-    typedef typename _Alloc::pointer pointer;
-    typedef typename _Alloc::const_pointer const_pointer;
-    typedef typename _Alloc::reference reference;
-    typedef typename _Alloc::const_reference const_reference;
-    typedef typename _Alloc::difference_type difference_type;
-    typedef typename _Alloc::size_type size_type;
+    typedef std::allocator_traits<_Alloc> _Alloc_traits;
+    typedef typename _Alloc_traits::template rebind_alloc<_Node> _Alty;
+    typedef std::allocator_traits<_Alty> _Alty_traits;
+    typedef typename _Alloc_traits::value_type value_type;
+    typedef typename _Alloc_traits::pointer pointer;
+    typedef typename _Alloc_traits::const_pointer const_pointer;
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
+    typedef typename _Alloc_traits::difference_type difference_type;
+    typedef typename _Alloc_traits::size_type size_type;
 
     typedef _Iterator<_Myt> const_iterator;
 
@@ -100,6 +104,9 @@ public:
         _Mysize = 0;
         _Myhead = nullptr;
     }
+
+    rp_heap(const rp_heap&) = delete;
+    rp_heap& operator=(const rp_heap&) = delete;
 
     ~rp_heap()
     {
@@ -123,8 +130,8 @@ public:
 
     const_iterator push(const value_type& _Val)
     {
-        _Nodeptr _Ptr = _Alnod.allocate(1);
-        _Alnod.construct(_Ptr, _Val);
+        _Nodeptr _Ptr = _Alty_traits::allocate(_Alnod, 1);
+        _Alty_traits::construct(_Alnod, _Ptr, _Val);
         _Insert_root(_Ptr);
         _Mysize++;
         return const_iterator(_Ptr);
@@ -132,8 +139,8 @@ public:
 
     const_iterator push(value_type&& x)
     {
-        _Nodeptr _Ptr = _Alnod.allocate(1);
-        _Alnod.construct(_Ptr, std::forward<value_type>(x));
+        _Nodeptr _Ptr = _Alty_traits::allocate(_Alnod, 1);
+        _Alty_traits::construct(_Alnod, _Ptr, std::forward<value_type>(x));
         _Insert_root(_Ptr);
         _Mysize++;
         return const_iterator(_Ptr);
@@ -266,8 +273,8 @@ private:
 
     void _Freenode(_Nodeptr _Ptr)
     {
-        _Alnod.destroy(_Ptr);
-        _Alnod.deallocate(_Ptr, 1);
+        _Alty_traits::destroy(_Alnod, _Ptr);
+        _Alty_traits::deallocate(_Alnod, _Ptr, 1);
         _Mysize--;
     }
 
